@@ -23,7 +23,14 @@ class DataLoader:
 
     def load_excel(self) -> None:
         """Load data from an Excel file."""
-        self.df: DataFrame = pd.read_excel(self.file_obj, skiprows=1)
+        self.df: DataFrame = pd.read_excel(self.file_obj)
+        self.df.rename(
+            columns={
+                self.df.columns[0]: "Datum und Zeit",
+                self.df.columns[1]: "Leistung [kW]",
+            },
+            inplace=True,
+        )
         self.df.iloc[:, 0] = pd.to_datetime(self.df.iloc[:, 0])
 
     def fill_missing_times(self) -> None:
