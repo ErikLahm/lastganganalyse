@@ -11,8 +11,11 @@ class MonthlyStatistics:
         self.threshold: float = 0.0  # Default threshold value
 
     def combine_dataframes(self, dfs: List[DataFrame]) -> DataFrame:
-        """Combine the list of DataFrames into a single DataFrame."""
-        combined_df: DataFrame = pd.concat(dfs, ignore_index=True)
+        # when more than one df is given: power values are added for same time
+        # """Combine the list of DataFrames into a single DataFrame."""
+        # combined_df: DataFrame = pd.concat(dfs, ignore_index=True)
+        """Combine the list of DataFrames into a single DataFrame by summing their second columns."""
+        combined_df = pd.concat(dfs).groupby(dfs[0].columns[0], as_index=False).sum()
         return combined_df
 
     def initialize_stats_df(self) -> DataFrame:
